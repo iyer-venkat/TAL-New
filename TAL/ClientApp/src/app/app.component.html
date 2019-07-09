@@ -1,0 +1,51 @@
+
+<form [formGroup]="form" novalidate>
+  <h1>TAL - Premium Calculator</h1>
+
+  <div class="form-group">
+    <label class="form-control-label"
+           [class.alert-danger]="form.controls['Name'].invalid && (form.controls['Name'].dirty || form.controls['Name'].touched) &&form.controls['Name'].errors.required">Name: *</label>
+    <input class="form-control" formControlName="Name" yieldFocus
+           [class.alert-danger]="form.controls['Name'].touched && !form.controls['Name'].valid" />
+  </div>
+  <div class="form-group">
+    <label class="form-control-label"
+           [class.alert-danger]="form.controls['DateOfBirth'].invalid && (form.controls['DateOfBirth'].dirty || form.controls['DateOfBirth'].touched) && form.controls['DateOfBirth'].errors.required">Date of Birth: *</label>
+    <div class="input-group">
+      <input class="form-control" readonly placeholder="dd/mm/yyyy" formControlName="DateOfBirth" ngbDatepicker #d="ngbDatepicker"
+             [class.alert-danger]="form.controls['DateOfBirth'].touched && !form.controls['DateOfBirth'].valid" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+      </div>
+      <div class="margin-top-14">&nbsp;Age: {{age}} yrs.</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="form-control-label"
+           [class.alert-danger]="form.controls['SumAssured'].invalid && (form.controls['SumAssured'].dirty || form.controls['SumAssured'].touched) && form.controls['SumAssured'].errors.required">Sum Assured (Death): *</label>
+    <input class="form-control" formControlName="SumAssured"
+           [class.alert-danger]="form.controls['SumAssured'].touched && !form.controls['SumAssured'].valid" />
+  </div>
+  <div class="form-group">
+    <label class="form-control-label"
+           [class.alert-danger]="form.controls['Occupation'].invalid && (form.controls['Occupation'].dirty || form.controls['Occupation'].touched) && form.controls['Occupation'].errors.required">Occupation: *</label>
+    <select class="form-control" formControlName="Occupation" (change)="calculatePremium($event.target.value)">
+      <option value="-1" disabled>-- Please Select --</option>
+      <option *ngFor="let occupation of occupations" [value]="occupation.value">{{occupation.text}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-control-label">Premium (calculated):</label>
+    <input class="form-control" formControlName="Premium" readonly>
+  </div>
+  <hr />
+  <!--<div class="container-fluid">
+      <div class="col">
+          <button [disabled]="saving"
+                  class="btn btn-primary btn-block"
+                  (click)="calculatePremium()">
+              Calculate Premium
+          </button>
+      </div>
+  </div>-->
+</form>
